@@ -54,7 +54,7 @@ def replace_placeholders_in_tex(tex_file, title, author_yaml_path):
 def new(title, template, tags):
     """创建新的LaTeX项目"""
     
-    base_path = os.path.dirname(os.path.abspath(__file__))
+    base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     texs_path = os.path.join(os.path.dirname(base_path), "texs")
     author_yaml_path = os.path.join(base_path, 'config', 'author.yaml')
         

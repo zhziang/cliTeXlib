@@ -16,7 +16,14 @@ dependencies = [
 ]
 
 [project.scripts]
-hello = "hello.hello:cli"
+tlib = "main.tlib:tlib"
+
+
+[tool.poetry]
+# ...
+packages = [
+    { include = "main", from = "src" },
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -63,8 +63,9 @@ def highlight_text(text: str, term: str) -> Text:
 @click.argument('term')
 def search(term: str):
     """搜索TeX项目，按匹配程度排序并高亮显示结果"""
-    base_path = os.path.dirname(os.path.abspath(__file__))
+    base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     texs_dir = os.path.join(os.path.dirname(base_path), "texs")
+    
     if not os.path.exists(texs_dir):
         click.echo("错误: .texs目录不存在", err=True)
         return
@@ -87,7 +88,7 @@ def search(term: str):
             
             title = meta_data.get('title', '')
             tags = meta_data.get('tags', [])
-            creation_time = meta_data.get('creation_at', '')
+            creation_time = meta_data.get('created_at', '')
             
             # 计算匹配分数
             match_score = calculate_match_score(term, title, tags)
@@ -103,7 +104,7 @@ def search(term: str):
                 'title': title,
                 'tags': tags,
                 'creation_time': creation_time,
-                'create_at': create_dt,
+                'created_at': create_dt,
                 'match_score': match_score
             })
             
@@ -111,7 +112,7 @@ def search(term: str):
             continue
     
     # 按匹配分数和创建时间排序
-    projects.sort(key=lambda x: (-x['match_score'], -x['create_at'].timestamp()))
+    projects.sort(key=lambda x: (-x['match_score'], -x['created_at'].timestamp()))
     
     # 使用Rich创建表格
     console = Console()
@@ -142,7 +143,7 @@ def search(term: str):
         
         # 格式化时间
         try:
-            time_str = project['create_dt'].strftime('%Y-%m-%d %H:%M:%S')
+            time_str = project['created_at'].strftime('%Y-%m-%d %H:%M:%S')
         except:
             time_str = str(project['creation_time'])
         
